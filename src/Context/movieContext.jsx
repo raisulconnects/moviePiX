@@ -15,7 +15,7 @@ export const MovieContextProvider = ({ children }) => {
       if (query) {
         setLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&s=${query}`
+          `https://www.omdbapi.com/?apikey=e65b7396&s=${query}`
         );
         const data = await res.json();
         console.log("With Search Query: ", data.Search);
@@ -24,7 +24,7 @@ export const MovieContextProvider = ({ children }) => {
       } else {
         let randomMovie = getRandomMovie();
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&s=${randomMovie}`
+          `https://www.omdbapi.com/?apikey=e65b7396&s=${randomMovie}`
         );
         const data = await res.json();
         console.log("In Initial State: ", data.Search);
