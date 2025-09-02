@@ -10,7 +10,7 @@ export default function MoreMovieDetails() {
     const fetchOneMovieData = async () => {
       try {
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&i=${imdbID}`
+          `https://www.omdbapi.com/?apikey=e65b7396&i=${imdbID}`
         );
         const data = await res.json();
         setMovieDetails(data);
