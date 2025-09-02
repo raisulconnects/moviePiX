@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function MovieCard({ movie }) {
   return (
     <div className="card bg-base-100 w-96 shadow-lg">
@@ -17,7 +19,12 @@ export default function MovieCard({ movie }) {
           <div className="badge badge-outline">{movie.imdbID}</div>
         </div>
       </div>
-      <button className="btn btn-secondary"> Add To Favourite </button>
+      <div className="flex items-center justify-center gap-2 mb-4">
+        <Link to={`/more-details/${movie.imdbID}`}>
+          <button className="btn btn-primary">More Details</button>
+        </Link>
+        <button className="btn btn-secondary"> Add To Favourite </button>
+      </div>
     </div>
   );
 }

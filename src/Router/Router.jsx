@@ -5,6 +5,7 @@ import Favourite from "../Pages/Favourite";
 import ErrorPage from "../Pages/ErrorPage";
 import RootLayout from "./RootLayout";
 import Movies from "../Pages/Movies";
+import MoreMovieDetails from "../Pages/MoreMovieDetails";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/movies", element: <Movies /> },
       { path: "/favourite", element: <Favourite /> },
+      { path: "/more-details/:imdbID", element: <MoreMovieDetails /> },
     ],
   },
 ]);
