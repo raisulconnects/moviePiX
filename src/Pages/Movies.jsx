@@ -1,37 +1,10 @@
-import { useEffect, useState } from "react";
 import MoviesHeader from "../Components/MoviesHeader";
 import Searchbar from "../Components/Searchbar";
-import getRandomMovie from "../UtilityFuctions/getRandomMovie";
 import MovieCard from "../Components/MovieCard";
+import useMovieContext from "../Hooks/useMovieContext";
 
 export default function Movies() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async (search = "") => {
-      if (search) {
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&s=${search}`
-        );
-        const data = await res.json();
-        console.log("With Search Query: ", data.Search);
-        setMovies(data.Search);
-        setLoading(false);
-      } else {
-        let randomMovie = getRandomMovie();
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&s=${randomMovie}`
-        );
-        const data = await res.json();
-        console.log("In Initial State: ", data.Search);
-        setMovies(data.Search);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { movies, loading } = useMovieContext();
 
   return (
     <>
