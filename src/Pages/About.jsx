@@ -29,6 +29,10 @@ export default function About() {
       <p className="font-medium text-gray-700 dark:text-gray-300">
         MoviePiX makes browsing films simple and fun.
       </p>
+      <p className="font-medium text-gray-700 dark:text-gray-300">
+        Profile and Dark Mode Feature is being worked on and will be released
+        soon!
+      </p>
 
       <footer className="mt-10 text-sm text-gray-500 dark:text-gray-400">
         Raisul Tanna

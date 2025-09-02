@@ -1,4 +1,15 @@
+import { useState } from "react";
+import useMovieContext from "../Hooks/useMovieContext";
+
 export default function Searchbar() {
+  const { setQuery } = useMovieContext();
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value);
+    setQuery(e.target.value);
+  };
+
   return (
     <div className="flex justify-center mb-10">
       <label className="input w-1/4">
@@ -23,6 +34,8 @@ export default function Searchbar() {
           required
           placeholder="Search your desired movie.."
           className=""
+          value={searchInput}
+          onChange={handleSearch}
         />
       </label>
     </div>

@@ -8,12 +8,14 @@ export const MovieContext = createContext();
 export const MovieContextProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState();
 
   useEffect(() => {
-    const fetchData = async (search = "") => {
-      if (search) {
+    const fetchData = async () => {
+      if (query) {
+        setLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=e65b7396&s=${search}`
+          `http://www.omdbapi.com/?apikey=e65b7396&s=${query}`
         );
         const data = await res.json();
         console.log("With Search Query: ", data.Search);
@@ -31,11 +33,15 @@ export const MovieContextProvider = ({ children }) => {
       }
     };
 
-    fetchData();
-  }, []);
+    const delay = setTimeout(() => {
+      fetchData();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [query]);
 
   return (
-    <MovieContext.Provider value={{ movies, loading }}>
+    <MovieContext.Provider value={{ movies, loading, query, setQuery }}>
       {children}
     </MovieContext.Provider>
   );
