@@ -4,28 +4,27 @@ export default function Home() {
   const navigator = useNavigate();
 
   return (
-    <>
-      <div className="hero min-h-[100vh] bg-base-200 z-50">
-        <div className="hero-content text-center">
-          <div className="max-w-2xl">
-            <h1 className="text-5xl font-bold text-primary mb-4">
-              Welcome to <span className="text-accent">MoviePiX 🎬</span>
-            </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-              Discover, explore, and save your favorite movies — all in one
-              place with MoviePiX.
-            </p>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                navigator("/movies");
-              }}
-            >
-              Get Started
-            </button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
+      <div className="w-full max-w-3xl bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-2xl p-12 text-center">
+        {/* Hero Title */}
+        <h1 className="text-5xl font-bold mb-6 text-white">
+          Welcome to <span className="text-red-500">MoviePiX 🎬</span>
+        </h1>
+
+        {/* Hero Description */}
+        <p className="text-lg text-gray-200 mb-8">
+          Discover, explore, and save your favorite movies — all in one place
+          with MoviePiX.
+        </p>
+
+        {/* Call-to-Action Button */}
+        <button
+          className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold shadow-lg transition"
+          onClick={() => navigator("/movies")}
+        >
+          Get Started
+        </button>
       </div>
-    </>
+    </div>
   );
 }

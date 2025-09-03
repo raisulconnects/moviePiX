@@ -19,7 +19,7 @@ export const MovieContextProvider = ({ children }) => {
           `https://www.omdbapi.com/?apikey=e65b7396&s=${query}`
         );
         const data = await res.json();
-        console.log("With Search Query: ", data.Search);
+        // console.log("With Search Query: ", data.Search);
         setMovies(data.Search);
         setLoading(false);
       } else {
@@ -28,7 +28,7 @@ export const MovieContextProvider = ({ children }) => {
           `https://www.omdbapi.com/?apikey=e65b7396&s=${randomMovie}`
         );
         const data = await res.json();
-        console.log("In Initial State: ", data.Search);
+        // console.log("In Initial State: ", data.Search);
         setMovies(data.Search);
         setLoading(false);
       }
