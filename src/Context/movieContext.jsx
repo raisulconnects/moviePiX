@@ -6,6 +6,7 @@ import { createContext, useState, useEffect } from "react";
 export const MovieContext = createContext();
 
 export const MovieContextProvider = ({ children }) => {
+  const [favMovies, setFavMovies] = useState([]);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState();
@@ -41,7 +42,9 @@ export const MovieContextProvider = ({ children }) => {
   }, [query]);
 
   return (
-    <MovieContext.Provider value={{ movies, loading, query, setQuery }}>
+    <MovieContext.Provider
+      value={{ movies, loading, query, setQuery, favMovies, setFavMovies }}
+    >
       {children}
     </MovieContext.Provider>
   );
