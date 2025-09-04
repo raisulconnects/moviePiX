@@ -122,7 +122,7 @@ export default function Navbar() {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src="src/assets/userAvatar.png" alt="User Avatar" />
+                  <img src="/userAvatar.png" alt="User Avatar" />
                 </div>
               </div>
 

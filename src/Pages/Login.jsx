@@ -2,7 +2,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { auth } from "../Firebase/firebase";
-import { toast } from "react-toastify";
 
 export default function Login() {
   const navigator = useNavigate();
