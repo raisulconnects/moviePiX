@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
           setRole(data.role);
           setUsername(data.username);
 
-          toast.error("For Dev: authContext -> Doc Paise");
+          // toast.error("For Dev: authContext -> Doc Paise");
         } else {
           console.log("No User Document Found!");
 
