@@ -13,7 +13,7 @@ export default function MovieCard({ movie }) {
         <img
           src={movie.Poster}
           alt={movie.Title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover transition-all duration-300 hover:scale-105"
         />
       </figure>
 

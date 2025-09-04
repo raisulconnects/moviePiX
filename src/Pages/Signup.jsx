@@ -1,4 +1,56 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { auth, db } from "../Firebase/firebase";
+import { toast } from "react-toastify";
+import { doc, setDoc } from "firebase/firestore";
+
 export default function Signup() {
+  const navigator = useNavigate();
+
+  const [newUser, setNewUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    c_password: "",
+  });
+
+  const handleChange = (e) => {
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    console.log(newUser);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (newUser.password === newUser.c_password) {
+        await createUserWithEmailAndPassword(
+          auth,
+          newUser.email,
+          newUser.password
+        );
+
+        await setDoc(doc(db, "users", auth.currentUser.uid), {
+          username: newUser.username,
+          role: "member",
+          fav: [],
+        });
+
+        navigator("/");
+        toast.success("Account Created Successfully!");
+        console.log("Log From Singup Page: ", auth);
+        console.log("Log From Singup Page: ", auth.currentUser);
+        console.log("Log From Singup Page: ", auth.currentUser.uid);
+      } else {
+        toast.error("Your Passwords don't match");
+      }
+    } catch (e) {
+      console.log(e.messsage);
+      toast.error("An Error Occured, please try again later.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
@@ -8,14 +60,14 @@ export default function Signup() {
         </h1>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm text-gray-300 mb-1">
-              Full Name
-            </label>
+            <label className="block text-sm text-gray-300 mb-1">Username</label>
             <input
+              name="username"
               type="text"
-              placeholder="John Doe"
+              placeholder="dave.24"
+              onChange={handleChange}
               className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
           </div>
@@ -23,7 +75,9 @@ export default function Signup() {
           <div>
             <label className="block text-sm text-gray-300 mb-1">Email</label>
             <input
+              name="email"
               type="email"
+              onChange={handleChange}
               placeholder="you@example.com"
               className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
@@ -33,6 +87,8 @@ export default function Signup() {
             <label className="block text-sm text-gray-300 mb-1">Password</label>
             <input
               type="password"
+              name="password"
+              onChange={handleChange}
               placeholder="••••••••"
               className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
@@ -44,6 +100,8 @@ export default function Signup() {
             </label>
             <input
               type="password"
+              name="c_password"
+              onChange={handleChange}
               placeholder="••••••••"
               className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
@@ -61,21 +119,24 @@ export default function Signup() {
         <div className="flex justify-center text-sm text-gray-400 mt-4">
           <p>
             Already have an account?{" "}
-            <a href="/login" className="text-red-400 hover:underline">
-              Log in
-            </a>
+            <Link to={"/login"} className="hover:text-red-400">
+              Login
+            </Link>
           </p>
         </div>
 
         {/* Social Signup */}
         <div className="mt-6">
-          <button className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-white text-gray-800 hover:bg-gray-200 transition font-medium">
+          <button
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-white text-gray-800 hover:bg-gray-200 transition font-medium"
+            disabled
+          >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
               className="w-5 h-5"
             />
-            Sign up with Google
+            Sign up with Google (Coming Soon)
           </button>
         </div>
       </div>
