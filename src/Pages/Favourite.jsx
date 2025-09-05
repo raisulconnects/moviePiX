@@ -26,7 +26,7 @@ export default function Favourite() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 py-12">
       <div className="max-w-6xl mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
-        {favMovies.map((movie) => (
+        {favMovies?.map((movie) => (
           <FavMovieCard key={movie.id} id={movie.id} />
         ))}
       </div>

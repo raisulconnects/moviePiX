@@ -1,6 +1,15 @@
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import useAuthContext from "../Hooks/useAuthContext";
 import getRandomMovie from "../UtilityFuctions/getRandomMovie";
 
 import { createContext, useState, useEffect } from "react";
+import { auth, db } from "../Firebase/firebase";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const MovieContext = createContext();
@@ -11,6 +20,49 @@ export const MovieContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState();
 
+  const { userLoggedIn } = useAuthContext();
+
+  // For Managing Users Favourite add or Remove in Firebase DB itself
+  const toggleFavourite = async (movie) => {
+    if (!userLoggedIn) return; // only logged in users can save
+    const userRef = doc(db, "users", auth.currentUser.uid);
+
+    if (favMovies.find((m) => m.id === movie.id)) {
+      // remove from fav
+      setFavMovies(favMovies.filter((m) => m.id !== movie.id));
+      await updateDoc(userRef, {
+        fav: arrayRemove(movie), // movie already has title & id
+      });
+    } else {
+      // add to fav
+      setFavMovies([...favMovies, movie]);
+      await updateDoc(userRef, {
+        fav: arrayUnion(movie),
+      });
+    }
+  };
+
+  // Fecthing Users Favourite Movies from Database
+  useEffect(() => {
+    if (!userLoggedIn || !auth.currentUser) {
+      setFavMovies([]);
+      return;
+    }
+
+    const fetchUserFavMovies = async () => {
+      let userFavDocReference = doc(db, "users", auth.currentUser.uid);
+
+      const snap = await getDoc(userFavDocReference);
+
+      if (snap.exists()) {
+        setFavMovies(snap.data().fav || []);
+      }
+    };
+
+    fetchUserFavMovies();
+  }, [userLoggedIn]);
+
+  // API Fetching For Movies and Search
   useEffect(() => {
     const fetchData = async () => {
       if (query) {
@@ -43,7 +95,15 @@ export const MovieContextProvider = ({ children }) => {
 
   return (
     <MovieContext.Provider
-      value={{ movies, loading, query, setQuery, favMovies, setFavMovies }}
+      value={{
+        movies,
+        loading,
+        query,
+        setQuery,
+        favMovies,
+        setFavMovies,
+        toggleFavourite,
+      }}
     >
       {children}
     </MovieContext.Provider>

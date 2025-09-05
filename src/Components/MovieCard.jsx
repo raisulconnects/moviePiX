@@ -1,9 +1,11 @@
 import { Link } from "react-router";
 import useMovieContext from "../Hooks/useMovieContext";
 import { toast } from "react-toastify";
+import useAuthContext from "../Hooks/useAuthContext";
 
 export default function MovieCard({ movie }) {
-  const { favMovies, setFavMovies } = useMovieContext();
+  const { favMovies, setFavMovies, toggleFavourite } = useMovieContext();
+  const { userLoggedIn } = useAuthContext();
   let isFav = favMovies.find((m) => m.id === movie.imdbID);
 
   return (
@@ -38,21 +40,28 @@ export default function MovieCard({ movie }) {
                 : "bg-white/20 text-white hover:bg-white/30"
             }`}
             onClick={() => {
-              if (isFav) {
-                const newArr = favMovies.filter((m) => m.id !== movie.imdbID);
-                setFavMovies(newArr);
-                toast.error("Removed From Favourite", {
-                  position: "bottom-right",
-                });
+              if (userLoggedIn) {
+                if (isFav) {
+                  const newArr = favMovies.filter((m) => m.id !== movie.imdbID);
+                  setFavMovies(newArr);
+                  toggleFavourite({ title: movie.Title, id: movie.imdbID });
+                  toast.error("Removed From Favourite", {
+                    position: "bottom-right",
+                  });
+                } else {
+                  const newArr = [
+                    ...favMovies,
+                    { title: movie.Title, id: movie.imdbID },
+                  ];
+                  setFavMovies(newArr);
+                  toggleFavourite({ title: movie.Title, id: movie.imdbID });
+
+                  toast.success("Added to Favourite", {
+                    position: "bottom-right",
+                  });
+                }
               } else {
-                const newArr = [
-                  ...favMovies,
-                  { title: movie.Title, id: movie.imdbID },
-                ];
-                setFavMovies(newArr);
-                toast.success("Added to Favourite", {
-                  position: "bottom-right",
-                });
+                toast.error("Please login first.");
               }
             }}
           >

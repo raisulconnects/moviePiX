@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function FavMovieCard({ id }) {
-  const { favMovies, setFavMovies } = useMovieContext();
+  const { favMovies, toggleFavourite } = useMovieContext();
   const [movie, setMovie] = useState(null);
 
+  // Check if this movie is already in favorites
   const isFav = favMovies.some((m) => m.id === id);
 
+  // Fetch movie details from OMDB
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,19 +34,18 @@ export default function FavMovieCard({ id }) {
     );
   }
 
-  const toggleFavourite = () => {
-    if (isFav) {
-      setFavMovies(favMovies.filter((m) => m.id !== movie.imdbID));
-      toast.error("Removed from Favourite", { position: "bottom-right" });
-    } else {
-      setFavMovies([...favMovies, { title: movie.Title, id: movie.imdbID }]);
-      toast.success("Added to Favourite", { position: "bottom-right" });
-    }
+  const handleToggle = () => {
+    toggleFavourite({ title: movie.Title, id: movie.imdbID });
+
+    toast[isFav ? "error" : "success"](
+      isFav ? "Removed from Favourites" : "Added to Favourites",
+      { position: "bottom-right" }
+    );
   };
 
   return (
     <div className="flex justify-center">
-      <div className="w-80 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl overflow-hidden flex flex-col transition-transform transform ">
+      <div className="w-80 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl overflow-hidden flex flex-col transition-transform transform">
         {/* Movie Poster */}
         <figure className="w-full h-96 overflow-hidden">
           <img
@@ -76,7 +77,7 @@ export default function FavMovieCard({ id }) {
                   ? "bg-gray-700 hover:bg-gray-600 text-white"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
-              onClick={toggleFavourite}
+              onClick={handleToggle}
             >
               {isFav ? "Remove from Favourites" : "Add To Favourites"}
             </button>
