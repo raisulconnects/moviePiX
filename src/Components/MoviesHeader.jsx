@@ -4,7 +4,7 @@ export default function MoviesHeader() {
       <h2 className="text-4xl font-bold text-primary mb-4">
         Explore Movies 🎥
       </h2>
-      <p className="text-lg text-gray-700 dark:text-gray-300">
+      <p className="text-lg text-white font-bold dark:text-gray-300">
         Search for any movie and discover details like plot, cast, ratings, and
         more. Add your favorites to your personal list and never lose track of
         what you love.

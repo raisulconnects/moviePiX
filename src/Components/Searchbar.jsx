@@ -32,7 +32,7 @@ export default function Searchbar() {
         <input
           type="search"
           required
-          placeholder="Search your desired movie.."
+          placeholder="Search Movie"
           className=""
           value={searchInput}
           onChange={handleSearch}

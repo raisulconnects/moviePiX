@@ -11,13 +11,13 @@ export default function Login() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
-    console.log(user);
   };
 
   const handleSubmit = async (e) => {
@@ -26,13 +26,14 @@ export default function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, user.email, user.password);
-      console.log(auth);
-      console.log(auth.currentUser);
+      // console.log(auth);
+      // console.log(auth.currentUser);
       navigator("/");
     } catch (e) {
       console.error(e.message);
+      setErrorMessage("Incorrect Credential, Check email and password");
     }
-
+    setErrorMessage("");
     setIsLoading(false);
   };
 
@@ -69,10 +70,11 @@ export default function Login() {
               required
             />
           </div>
-
+          <h1 className="text-center text-white">{errorMessage}</h1>
           <button
             type="submit"
             className="w-full py-2 rounded-xl bg-red-500 hover:bg-red-600 transition text-white font-semibold shadow-md"
+            disabled={isLoading}
           >
             {isLoading ? (
               <>

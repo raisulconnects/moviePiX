@@ -7,6 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 
 export default function Signup() {
   const navigator = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [newUser, setNewUser] = useState({
     username: "",
@@ -17,11 +18,12 @@ export default function Signup() {
 
   const handleChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
-    console.log(newUser);
+    // console.log(newUser);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       if (newUser.password === newUser.c_password) {
@@ -39,9 +41,9 @@ export default function Signup() {
 
         navigator("/");
         toast.success("Account Created Successfully!");
-        console.log("Log From Singup Page: ", auth);
-        console.log("Log From Singup Page: ", auth.currentUser);
-        console.log("Log From Singup Page: ", auth.currentUser.uid);
+        // console.log("Log From Singup Page: ", auth);
+        // console.log("Log From Singup Page: ", auth.currentUser);
+        // console.log("Log From Singup Page: ", auth.currentUser.uid);
       } else {
         toast.error("Your Passwords don't match");
       }
@@ -49,6 +51,8 @@ export default function Signup() {
       console.log(e.messsage);
       toast.error("An Error Occured, please try again later.");
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -64,6 +68,7 @@ export default function Signup() {
           <div>
             <label className="block text-sm text-gray-300 mb-1">Username</label>
             <input
+              required
               name="username"
               type="text"
               placeholder="dave.24"
@@ -75,6 +80,7 @@ export default function Signup() {
           <div>
             <label className="block text-sm text-gray-300 mb-1">Email</label>
             <input
+              required
               name="email"
               type="email"
               onChange={handleChange}
@@ -86,6 +92,7 @@ export default function Signup() {
           <div>
             <label className="block text-sm text-gray-300 mb-1">Password</label>
             <input
+              required
               type="password"
               name="password"
               onChange={handleChange}
@@ -99,6 +106,7 @@ export default function Signup() {
               Confirm Password
             </label>
             <input
+              required
               type="password"
               name="c_password"
               onChange={handleChange}
@@ -110,8 +118,17 @@ export default function Signup() {
           <button
             type="submit"
             className="w-full py-2 rounded-xl bg-red-500 hover:bg-red-600 transition text-white font-semibold shadow-md"
+            disabled={isLoading}
           >
-            Create Account
+            {isLoading ? (
+              <>
+                {" "}
+                Creating Account{" "}
+                <span className="loading loading-dots loading-xl"></span>{" "}
+              </>
+            ) : (
+              <> Create Account</>
+            )}
           </button>
         </form>
 

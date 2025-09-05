@@ -115,7 +115,7 @@ export default function Navbar() {
           </label> */}
 
           {userLoggedIn && (
-            <h1 className="text-white font-medium">{`Hello ${username},`}</h1>
+            <h1 className="text-white font-medium hidden md:block">{`Hello ${username},`}</h1>
           )}
           {/* Avatar Dropdown */}
           {userLoggedIn && (
@@ -131,6 +131,7 @@ export default function Navbar() {
                 className="menu menu-sm dropdown-content bg-white/10 backdrop-blur-md rounded-box mt-3 w-52 p-2 shadow-lg text-white"
               >
                 <li>
+                  <h1 className="text-black font-medium bg-gray-500 text-center">{`Hello ${username}!`}</h1>
                   <a
                     onClick={() => {
                       signOut(auth);
