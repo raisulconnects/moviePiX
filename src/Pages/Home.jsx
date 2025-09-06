@@ -19,7 +19,7 @@ export default function Home() {
 
         {/* Call-to-Action Button */}
         <button
-          className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold shadow-lg transition"
+          className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold shadow-lg transition hover:scale-105"
           onClick={() => navigator("/movies")}
         >
           Get Started
