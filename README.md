@@ -34,19 +34,23 @@ Users can search movies, view details, add them to favorites, and keep their lis
 
 ## ⚙️ Getting Started
 
-### 1. Clone the repository
+1. **Clone the repository**
 
+```bash
 git clone https://github.com/your-username/moviepix.git
-cd moviepix
+cd cloud-store
+```
 
-### 2. Install dependencies
+2. **Install dependencies**
 
+```bash
 npm install
+```
 
-### 3. Setup Environment Variables
+3. **Configure environment variables**
+   Create a `.env` file and add your Firebase / Cloudinary keys:
 
-Create a .env file in the project root:
-
+```bash
 VITE_FIREBASE_API_KEY=your_firebase_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -54,15 +58,17 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_OMDB_API_KEY=your_omdb_api_key
+```
 
-### 4. Run the project
+4. **Start the development server**
 
+```bash
 npm run dev
-
----
+```
 
 ### 📂 Project Structure
 
+```bash
 moviepix/
 ├── public/ # Static assets
 ├── src/
@@ -73,12 +79,13 @@ moviepix/
 │ ├── Pages/ # Main app pages
 │ ├── UtilityFunctions/ # Helper functions
 │ └── App.jsx # Root component
-
----
+```
 
 ### 🚀 Future Improvements
 
+```bash
 🔑 Social login (Google, GitHub, etc.)
 🌟 Add movie ratings & reviews
 🖼️ Better movie detail page with trailers
 🌟 Add Comment Section so users can Comment
+```
