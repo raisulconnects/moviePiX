@@ -1,9 +1,11 @@
 export default function getRandomMovie() {
   const initial_placeHolder_movieList = [
-    "Avengers",
-    "Naruto",
-    "Harry",
-    "Spider-Man",
+    "love",
+    "man",
+    "girl",
+    "dance",
+    "high",
+    "harry",
   ];
 
   let randomIndex = Math.floor(

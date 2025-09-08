@@ -22,6 +22,11 @@ export const MovieContextProvider = ({ children }) => {
   const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
   const { userLoggedIn } = useAuthContext();
 
+  // ===== Infinite Scroll states =====
+  const [page, setPage] = useState(1); // current page number
+  const [hasMore, setHasMore] = useState(true); // whether more movies are available
+  const [totalResults, setTotalResults] = useState(0);
+
   // For Managing Users Favourite add or Remove in Firebase DB itself
   const toggleFavourite = async (movie) => {
     if (!userLoggedIn) return; // only logged in users can save
@@ -62,35 +67,40 @@ export const MovieContextProvider = ({ children }) => {
     fetchUserFavMovies();
   }, [userLoggedIn]);
 
-  // API Fetching For Movies and Search
-  useEffect(() => {
-    const fetchData = async () => {
-      if (query) {
-        setLoading(true);
-        const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+  // ===== New fetchMovies function for infinite scroll =====
+  const fetchMovies = async () => {
+    setLoading(true);
+    try {
+      const searchTerm = query || getRandomMovie();
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchTerm}&page=${page}`
+      );
+      const data = await res.json();
+
+      if (data.Response === "True") {
+        setMovies((prev) => [...prev, ...data.Search]); // append new results
+        setTotalResults(Number(data.totalResults));
+        setHasMore(
+          movies.length + data.Search.length < Number(data.totalResults)
         );
-        const data = await res.json();
-        // console.log("With Search Query: ", data.Search);
-        setMovies(data.Search);
-        setLoading(false);
+        setPage((prev) => prev + 1); // increment page for next fetch
       } else {
-        let randomMovie = getRandomMovie();
-        const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${API_KEY}&s=${randomMovie}`
-        );
-        const data = await res.json();
-        // console.log("In Initial State: ", data.Search);
-        setMovies(data.Search);
-        setLoading(false);
+        setHasMore(false); // no more movies
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch movies:", err);
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const delay = setTimeout(() => {
-      fetchData();
-    }, 500);
-
-    return () => clearTimeout(delay);
+  // Reset movies and pagination when query changes
+  useEffect(() => {
+    setMovies([]);
+    setPage(1);
+    setHasMore(true);
+    fetchMovies(); // fetch first page for new query
   }, [query]);
 
   return (
@@ -103,6 +113,8 @@ export const MovieContextProvider = ({ children }) => {
         favMovies,
         setFavMovies,
         toggleFavourite,
+        fetchMovies, // expose fetchMovies for infinite scroll
+        hasMore, // expose hasMore for infinite scroll
       }}
     >
       {children}
